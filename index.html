@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>二年級英語護照發音專區</title>
+  <style>
+    :root {
+      --primary: #ea580c;        /* 二年級主色：活潑暖橘色 */
+      --primary-dark: #c2410c;   /* 深橘色（按鈕與邊框） */
+      --bg: #fffaf5;             /* 護眼暖杏色背景 */
+      --card-bg: #ffffff;
+      --card-border: #fed7aa;    /* 卡片粉橘色邊框 */
+      --highlight: #d97706;      /* 重點單字強調色（琥珀金） */
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Comic Sans MS", sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 16px;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 頂部導覽列 */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .back-btn {
+      background: #fed7aa;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #9a3412;
+      cursor: pointer;
+    }
+
+    /* === 模式一：單句聚焦學習卡片 === */
+    #focus-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      margin-top: 10px;
+    }
+    .focus-card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 360px;
+      border-radius: 28px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(234, 88, 12, 0.08);
+      border: 3px solid var(--card-border);
+    }
+    .page-badge {
+      display: inline-block;
+      background: #ffedd5;
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 6px 16px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .sentence-display {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      color: #0f172a;
+      min-height: 2.6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .keyword-badge {
+      font-size: 1.15rem;
+      color: #64748b;
+      margin-bottom: 25px;
+    }
+    .keyword-badge span {
+      color: var(--highlight);
+      font-weight: bold;
+      border-bottom: 2px solid var(--highlight);
+      padding-bottom: 2px;
+    }
+
+    /* 超大播放按鈕（二年級暖橘漸層） */
+    .big-play-btn {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      border: none;
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(234, 88, 12, 0.35);
+      transition: all 0.2s;
+    }
+    .big-play-btn:active {
+      transform: scale(0.92);
+    }
+    .big-play-btn.playing {
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+      animation: pulse 1.2s infinite;
+    }
+    .play-tip {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #78716c;
+      margin-top: 15px;
+    }
+
+    /* 左右翻頁按鈕 */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 360px;
+      margin-top: 25px;
+    }
+    .nav-btn {
+      background: white;
+      border: 2px solid #fed7aa;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #9a3412;
+      cursor: pointer;
+    }
+
+    /* === 模式二：全冊總目錄模式 === */
+    #catalog-view {
+      display: none;
+    }
+    .unit-card {
+      background: white;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+      border: 1px solid #fed7aa;
+    }
+    .unit-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .catalog-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: #fffaf5;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      text-decoration: none;
+      color: #1e293b;
+      font-weight: 600;
+      border: 1px solid #fed7aa;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.5); }
+      70% { transform: scale(1.06); box-shadow: 0 0 0 16px rgba(234, 88, 12, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部導覽 -->
+  <div class="top-nav">
+    <button class="back-btn" id="toggleViewBtn" onclick="toggleView()">📚 完整目錄</button>
+    <div style="font-weight: 700; color: #9a3412;" id="navTitle">鹿場國小英語護照 G2</div>
+  </div>
+
+  <!-- 單句聚焦畫面 -->
+  <div id="focus-view">
+    <div class="focus-card">
+      <div class="page-badge" id="focusPageBadge">Page 1</div>
+      <div class="sentence-display" id="focusSentence">It is a circle.</div>
+      <div class="keyword-badge" id="focusKeyword">學習單字：<span>circle</span></div>
+      
+      <button class="big-play-btn" id="bigPlayBtn" onclick="playCurrentAudio()">
+        <span id="playIcon">▶</span>
+      </button>
+      <div class="play-tip" id="playTipText">點大按鈕聽聲音 🔊</div>
+    </div>
+
+    <!-- 輔助前後頁按鈕 -->
+    <div class="nav-controls">
+      <button class="nav-btn" id="prevBtn" onclick="navigateSentence(-1)">⬅ 上一頁</button>
+      <button class="nav-btn" id="nextBtn" onclick="navigateSentence(1)">下一頁 ➡</button>
+    </div>
+  </div>
+
+  <!-- 完整目錄清單 -->
+  <div id="catalog-view"></div>
+
+  <audio id="audioPlayer"></audio>
+
+  <script>
+    // 二年級 42 句完整結構 (對應手冊 Learning Goals 與 Materials)
+    const items = [
+      { page: 1, week: 1, text: "It is a circle.", word: "circle", file: "01.m4a" },
+      { page: 2, week: 1, text: "It is a square.", word: "square", file: "02.m4a" },
+      { page: 3, week: 1, text: "It is a triangle.", word: "triangle", file: "03.m4a" },
+      { page: 5, week: 2, text: "It is a heart.", word: "heart", file: "04.m4a" },
+      { page: 6, week: 2, text: "It is a diamond.", word: "diamond", file: "05.m4a" },
+      { page: 7, week: 2, text: "It is a star.", word: "star", file: "06.m4a" },
+      { page: 9, week: 3, text: "Raise your hand.", word: "hand", file: "07.m4a" },
+      { page: 10, week: 3, text: "Put down your hand.", word: "down", file: "08.m4a" },
+      { page: 11, week: 3, text: "Are you ready?", word: "ready", file: "09.m4a" },
+      { page: 13, week: 4, text: "Put on the shirt.", word: "shirt", file: "10.m4a" },
+      { page: 14, week: 4, text: "Put on the scarf.", word: "scarf", file: "11.m4a" },
+      { page: 15, week: 4, text: "Put on the pants.", word: "pants", file: "12.m4a" },
+      { page: 17, week: 5, text: "Take off the socks.", word: "socks", file: "13.m4a" },
+      { page: 18, week: 5, text: "Take off the shoes.", word: "shoes", file: "14.m4a" },
+      { page: 19, week: 5, text: "Take off the gloves.", word: "gloves", file: "15.m4a" },
+      { page: 21, week: 6, text: "Take out your book.", word: "out", file: "16.m4a" },
+      { page: 22, week: 6, text: "Put away your book.", word: "away", file: "17.m4a" },
+      { page: 23, week: 6, text: "Come here.", word: "here", file: "18.m4a" },
+      { page: 25, week: 7, text: "The pig is fat.", word: "fat", file: "19.m4a" },
+      { page: 26, week: 7, text: "The rat is small.", word: "small", file: "20.m4a" },
+      { page: 27, week: 7, text: "The dog is short.", word: "short", file: "21.m4a" },
+      { page: 29, week: 8, text: "I don't like lettuce.", word: "lettuce", file: "22.m4a" },
+      { page: 30, week: 8, text: "I don't like tomatoes.", word: "tomatoes", file: "23.m4a" },
+      { page: 31, week: 8, text: "I don't like potatoes.", word: "potatoes", file: "24.m4a" },
+      { page: 33, week: 9, text: "Line up, please.", word: "line", file: "25.m4a" },
+      { page: 34, week: 9, text: "Throw the ball, please.", word: "throw", file: "26.m4a" },
+      { page: 35, week: 9, text: "Kick the ball, please.", word: "kick", file: "27.m4a" },
+      { page: 37, week: 10, text: "There are twenty people.", word: "twenty", file: "28.m4a" },
+      { page: 38, week: 10, text: "There are thirty people.", word: "thirty", file: "29.m4a" },
+      { page: 39, week: 10, text: "There are forty people.", word: "forty", file: "30.m4a" },
+      { page: 41, week: 11, text: "There are fifty people.", word: "fifty", file: "31.m4a" },
+      { page: 42, week: 11, text: "There are sixty people.", word: "sixty", file: "32.m4a" },
+      { page: 43, week: 11, text: "There are seventy people.", word: "seventy", file: "33.m4a" },
+      { page: 45, week: 12, text: "There are eighty people.", word: "eighty", file: "34.m4a" },
+      { page: 46, week: 12, text: "There are ninety people.", word: "ninety", file: "35.m4a" },
+      { page: 47, week: 12, text: "There are one hundred people.", word: "one hundred", file: "36.m4a" },
+      { page: 49, week: 13, text: "Touch your hair.", word: "hair", file: "37.m4a" },
+      { page: 50, week: 13, text: "Touch your arm.", word: "arm", file: "38.m4a" },
+      { page: 51, week: 13, text: "Touch your neck.", word: "neck", file: "39.m4a" },
+      { page: 53, week: 14, text: "Touch your teeth.", word: "teeth", file: "40.m4a" },
+      { page: 54, week: 14, text: "Touch your feet.", word: "feet", file: "41.m4a" },
+      { page: 55, week: 14, text: "Touch your leg.", word: "leg", file: "42.m4a" }
+    ];
+
+    let currentIndex = 0;
+    const player = document.getElementById('audioPlayer');
+    const bigPlayBtn = document.getElementById('bigPlayBtn');
+    const playIcon = document.getElementById('playIcon');
+    const playTipText = document.getElementById('playTipText');
+
+    // 建立目錄清單
+    function renderCatalog() {
+      const catalog = document.getElementById('catalog-view');
+      let currentWeek = -1;
+      let html = '';
+
+      items.forEach((item, index) => {
+        if (item.week !== currentWeek) {
+          if (currentWeek !== -1) html += `</div>`;
+          currentWeek = item.week;
+          html += `<div class="unit-card"><div class="unit-title">Week ${currentWeek}</div>`;
+        }
+        html += `
+          <div class="catalog-item" onclick="selectFromCatalog(${index})">
+            <span><strong>P.${item.page}</strong> ${item.text}</span>
+            <span>🔊</span>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      catalog.innerHTML = html;
+    }
+
+    // 渲染聚焦卡片畫面
+    function updateFocusCard(index) {
+      currentIndex = index;
+      const cur = items[currentIndex];
+      
+      document.getElementById('focusPageBadge').innerText = `第 ${cur.page} 頁 (Week ${cur.week})`;
+      document.getElementById('focusSentence').innerText = cur.text;
+      document.getElementById('focusKeyword').innerHTML = `學習重點字：<span>${cur.word}</span>`;
+
+      // 檢查前後按鈕狀態
+      document.getElementById('prevBtn').style.visibility = (currentIndex === 0) ? 'hidden' : 'visible';
+      document.getElementById('nextBtn').style.visibility = (currentIndex === items.length - 1) ? 'hidden' : 'visible';
+
+      // 停止先前播放
+      resetPlayBtn();
+      player.pause();
+    }
+
+    // 播放音訊
+    function playCurrentAudio() {
+      const cur = items[currentIndex];
+      player.src = `audio/${cur.file}`;
+      
+      player.play().then(() => {
+        bigPlayBtn.classList.add('playing');
+        playIcon.innerText = '⏸';
+        playTipText.innerText = '正在播放中...';
+      }).catch(e => {
+        console.log("播放被阻擋或路徑錯誤", e);
+      });
+
+      player.onended = () => {
+        resetPlayBtn();
+      };
+    }
+
+    function resetPlayBtn() {
+      bigPlayBtn.classList.remove('playing');
+      playIcon.innerText = '▶';
+      playTipText.innerText = '點大按鈕聽聲音 🔊';
+    }
+
+    // 上一句 / 下一句切換
+    function navigateSentence(direction) {
+      let target = currentIndex + direction;
+      if (target >= 0 && target < items.length) {
+        window.location.hash = `#p${items[target].page}`;
+        updateFocusCard(target);
+      }
+    }
+
+    // 目錄與卡片切換
+    function toggleView() {
+      const focusView = document.getElementById('focus-view');
+      const catalogView = document.getElementById('catalog-view');
+      const toggleBtn = document.getElementById('toggleViewBtn');
+
+      if (catalogView.style.display === 'block') {
+        catalogView.style.display = 'none';
+        focusView.style.display = 'flex';
+        toggleBtn.innerText = '📚 完整目錄';
+      } else {
+        catalogView.style.display = 'block';
+        focusView.style.display = 'none';
+        toggleBtn.innerText = '🔍 回單句卡片';
+      }
+    }
+
+    function selectFromCatalog(index) {
+      window.location.hash = `#p${items[index].page}`;
+      updateFocusCard(index);
+      toggleView();
+    }
+
+    // 初始化：依 Hash 判斷頁數
+    window.onload = () => {
+      renderCatalog();
+      const hash = window.location.hash; // 例如 #p5
+      let matchedIndex = 0;
+
+      if (hash) {
+        const pageNum = parseInt(hash.replace('#p', ''), 10);
+        const idx = items.findIndex(item => item.page === pageNum);
+        if (idx !== -1) matchedIndex = idx;
+      }
+
+      updateFocusCard(matchedIndex);
+    };
+
+    // 監聽網址變化
+    window.onhashchange = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const pageNum = parseInt(hash.replace('#p', ''), 10);
+        const idx = items.findIndex(item => item.page === pageNum);
+        if (idx !== -1) updateFocusCard(idx);
+      }
+    };
+  </script>
+</body>
+</html>
